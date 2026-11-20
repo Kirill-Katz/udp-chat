@@ -1,0 +1,3 @@
+*.log
+/go-peer/go-peer
+/go-peer/coverage.out
