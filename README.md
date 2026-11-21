@@ -5,7 +5,7 @@ sends and receives directly over UDP. The previous central-server implementation
 has been removed.
 
 - **[`go-peer/`](go-peer/):** runnable Go console peer, implementing tasks 1–4.
-- **[`java-peer/`](java-peer/):** intentionally empty, reserved for the other implementation.
+- **[`java-peer/`](java-peer/):** Java 21 console peer compatible with the Go peer.
 - **[`PROTOCOL.md`](PROTOCOL.md):** standalone implementation guide for the other
   student, including sockets, JSON packets, discovery, name conflicts, presence,
   encryption, and Go/Java-verified compatibility vectors.
@@ -21,6 +21,15 @@ cd go-peer
 go build -o go-peer .
 ```
 
+For Java 21 or newer, with no external dependencies:
+
+```sh
+cd java-peer
+javac -d out Chat.java ChatTest.java NetworkTest.java
+java -cp out ChatTest
+java -cp out NetworkTest
+```
+
 ## Run
 
 Run each peer in a separate terminal, on the same group, port, and passphrase:
@@ -30,6 +39,19 @@ Run each peer in a separate terminal, on the same group, port, and passphrase:
 ./go-peer -name Ion -port 9000 -passphrase 'correct horse battery staple'
 ./go-peer -name Maria -port 9000 -passphrase 'correct horse battery staple'
 ```
+
+Run the Java peer in another terminal with the same group, port, and passphrase:
+
+```sh
+cd java-peer
+java -cp out Chat -name Sofia -port 9000 -passphrase 'correct horse battery staple'
+```
+
+Use `-interface <network-interface-name>` on Java when automatic selection chooses
+the wrong adapter. Java and Go use the same UDP packet format and encryption key.
+On Windows, the Java peer can run, while the current Go peer's multicast socket
+configuration is supported only on macOS and Linux. For the mixed-language
+defense, run the Go peer on macOS/Linux and the Java peer on either machine.
 
 On another computer, use the same commands with a unique name. **Do not supply a
 server address:** there is none. Discovery is automatic. Wait for `* ready as ...`
@@ -144,8 +166,8 @@ interface and are skipped if none exists; `go test -short ./...` skips them
 explicitly. Tests shorten internal timers; real CLI defaults remain 900ms/5s/15s.
 
 A defense still needs at least three peers across two physical computers.
-The lab's interoperability bonus requires the other implementation to actually
-communicate with this one. An empty Java directory alone does not earn it.
+The lab's interoperability bonus requires actual Java/Go communication across
+the LAN at the defense. Unit crypto vectors alone do not establish that.
 
 ## Source map
 

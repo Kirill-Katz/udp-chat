@@ -1,9 +1,9 @@
 # LAN Chat Protocol v1 — Go/Java Implementation Guide
 
 This document is the interoperability contract for the chat in `go-peer/` and
-for a future implementation by another student. **There is no server.** Every
+for the Java implementation. **There is no server.** Every
 program is a peer with its own name, membership table, console, and UDP sockets.
-`java-peer/` is intentionally empty; this document is the guide for implementing it.
+`java-peer/Chat.java` implements this protocol.
 
 Normative terms: **must** means required for interoperability. All numeric limits
 below are part of version 1. All examples use fictitious IDs. Do not copy fixed
