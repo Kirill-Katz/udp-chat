@@ -14,7 +14,9 @@ has been removed.
 ## Build
 
 Requires **Go 1.24+**. The implementation has no third-party dependencies.
-Multicast socket options are currently supported on **macOS and Linux**.
+Multicast socket options are implemented for **Windows, macOS, and Linux**.
+The Windows Go build compiles; network behavior still needs a run on an ordinary
+Windows host because this development host blocks locally built executables.
 
 ```sh
 cd go-peer
@@ -49,9 +51,18 @@ java -cp out Chat -name Sofia -port 9000 -passphrase 'correct horse battery stap
 
 Use `-interface <network-interface-name>` on Java when automatic selection chooses
 the wrong adapter. Java and Go use the same UDP packet format and encryption key.
-On Windows, the Java peer can run, while the current Go peer's multicast socket
-configuration is supported only on macOS and Linux. For the mixed-language
-defense, run the Go peer on macOS/Linux and the Java peer on either machine.
+On Windows, open PowerShell in the project folder and run the Java peer directly:
+
+```powershell
+.\run-java.ps1 -Name Sofia -Passphrase 'correct horse battery staple'
+```
+
+Open a second PowerShell window and use another name. If script execution is
+disabled, run `powershell -ExecutionPolicy Bypass -File .\run-java.ps1 -Name Sofia
+-Passphrase 'correct horse battery staple'`. The script finds an installed JDK,
+compiles `Chat.java`, then starts the interactive peer. Java 21 or newer is needed.
+For the Go peer on Windows, run `go build -o go-peer.exe .` from `go-peer/`, then
+`./go-peer.exe -name Ana -passphrase 'correct horse battery staple'`.
 
 On another computer, use the same commands with a unique name. **Do not supply a
 server address:** there is none. Discovery is automatic. Wait for `* ready as ...`
@@ -68,7 +79,8 @@ multiple active interfaces cause automatic selection to choose the wrong one:
 ./go-peer -name Ion -port 9000 -interface eth0 -passphrase 'correct horse battery staple'
 ```
 
-Use `ifconfig` on macOS or `ip -4 addr` on Linux to identify your interface.
+Use `ifconfig` on macOS, `ip -4 addr` on Linux, or `Get-NetAdapter` on Windows
+to identify your interface.
 The selected interface/IP and individual private port are printed at startup.
 
 Optional flags:

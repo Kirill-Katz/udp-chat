@@ -1,5 +1,6 @@
 *.log
 /go-peer/go-peer
+/go-peer/go-peer.exe
 /go-peer/coverage.out
 java-peer/out/
 java-peer/*.log
