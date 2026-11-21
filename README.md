@@ -60,7 +60,8 @@ On Windows, open PowerShell in the project folder and run the Java peer directly
 Open a second PowerShell window and use another name. If script execution is
 disabled, run `powershell -ExecutionPolicy Bypass -File .\run-java.ps1 -Name Sofia
 -Passphrase 'correct horse battery staple'`. The script finds an installed JDK,
-compiles `Chat.java`, then starts the interactive peer. Java 21 or newer is needed.
+sets the Windows console to UTF-8, compiles `Chat.java`, then starts the
+interactive peer. Java 21 or newer is needed.
 For the Go peer on Windows, run `go build -o go-peer.exe .` from `go-peer/`, then
 `./go-peer.exe -name Ana -passphrase 'correct horse battery staple'`.
 
