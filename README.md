@@ -50,7 +50,9 @@ java -cp out Chat -name Sofia -port 9000 -passphrase 'correct horse battery stap
 ```
 
 Use `-interface <network-interface-name>` on Java when automatic selection chooses
-the wrong adapter. Java and Go use the same UDP packet format and encryption key.
+the wrong adapter. Java follows the default IPv4 route by default, avoiding
+virtual adapters such as WSL when Wi-Fi is the active network. Java and Go use
+the same UDP packet format and encryption key.
 On Windows, open PowerShell in the project folder and run the Java peer directly:
 
 ```powershell

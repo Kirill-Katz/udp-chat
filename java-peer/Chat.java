@@ -203,6 +203,14 @@ public final class Chat {
         System.out.println("* checking name " + name + " via " + iface.getName() + "; private port " + ((InetSocketAddress)personal.getLocalAddress()).getPort());
     }
     static NetworkInterface chooseInterface(String requested) throws Exception {
+        if (requested == null) {
+            // Follow the default IPv4 route, avoiding virtual adapters such as WSL.
+            try (DatagramSocket probe = new DatagramSocket()) {
+                probe.connect(InetAddress.getByName("192.0.2.1"), 9);
+                NetworkInterface routed = NetworkInterface.getByInetAddress(probe.getLocalAddress());
+                if (routed != null && routed.isUp() && routed.supportsMulticast()) return routed;
+            } catch (Exception ignored) { /* Fall back to interface enumeration below. */ }
+        }
         for (NetworkInterface n : Collections.list(NetworkInterface.getNetworkInterfaces())) {
             if (requested != null && !requested.equals(n.getName())) continue;
             if (n.isUp() && (requested != null || (!n.isLoopback() && n.supportsMulticast()))
